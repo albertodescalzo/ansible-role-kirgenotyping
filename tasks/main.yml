@@ -11,8 +11,8 @@
     creates: "{{ home_path }}/miniforge3/bin/mamba"
 - name: Add Mamba to PATH environment variable.
   ansible.builtin.lineinfile:
-    path: /home/ubuntu/.bashrc
-    line: 'export PATH={{ home_path }}//miniforge3/bin:$PATH'
+    path: {{ home_path }}/.bashrc
+    line: 'export PATH={{ home_path }}/miniforge3/bin:$PATH'
     create: yes
     state: present  
 - name: Install apt packages.
@@ -38,7 +38,7 @@
   ansible.builtin.get_url:
     url: 'https://github.com/snakemake/snakemake/archive/refs/tags/v{{ snakemake_version }}.tar.gz'
     dest: /tmp/snakemake_{{ snakemake_version }}.tar.gz
-    owner: ubuntu
+    owner: {{ username }}
     mode: 0755
 - name: Unzip snakemake.
   ansible.builtin.unarchive:
@@ -56,8 +56,8 @@
     src: '{{ home_path }}/miniforge3/bin/snakemake'
     dest: /usr/local/bin/snakemake 
     remote_src: true
-    owner: ubuntu
-    group: ubuntu
+    owner: {{ username }}
+    group: {{ username }}
     mode: '0755'
 - name: Add conda init bash to .bashrc
   ansible.builtin.lineinfile:
