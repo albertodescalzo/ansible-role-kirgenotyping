@@ -34,31 +34,22 @@
       - jellyfish
       - minimap2
       - samtools
-- name: Download snakemake.
-  ansible.builtin.get_url:
-    url: 'https://github.com/snakemake/snakemake/archive/refs/tags/v{{ snakemake_version }}.tar.gz'
-    dest: /tmp/snakemake_{{ snakemake_version }}.tar.gz
-    owner: '{{ username }}'
-    mode: 0755
-- name: Unzip snakemake.
-  ansible.builtin.unarchive:
-    src: /tmp/snakemake_{{ snakemake_version }}.tar.gz
-    dest: '{{ home_path }}/'
-    remote_src: true
 - name: Install snakemake.
   pip:
-    name: '{{ home_path }}/snakemake-{{ snakemake_version }}/'
-    executable: '{{ home_path }}/miniforge3/bin/pip3'
+    name: "{{ item }}"
     state: present
-- name: Copy snakemake to path.
-  become: true
-  ansible.builtin.copy:
-    src: '{{ home_path }}/miniforge3/bin/snakemake'
-    dest: /usr/local/bin/snakemake 
-    remote_src: true
-    owner: '{{ username }}'
-    group: '{{ username }}'
-    mode: '0755'
+  loop:
+    - 'snakemake=={{ snakemake_version }}'
+    - pulp==2.7.0
+# - name: Copy snakemake to path.
+#   become: true
+#   ansible.builtin.copy:
+#     src: '{{ home_path }}/miniforge3/bin/snakemake'
+#     dest: /usr/local/bin/snakemake 
+#     remote_src: true
+#     owner: '{{ username }}'
+#     group: '{{ username }}'
+#     mode: '0755'
 - name: Add conda init bash to .bashrc
   ansible.builtin.lineinfile:
     path: '{{ home_path }}/.bashrc'
