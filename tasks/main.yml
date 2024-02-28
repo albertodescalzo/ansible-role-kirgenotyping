@@ -6,13 +6,13 @@
     mode: 0744
 - name: Install mamba.
   ansible.builtin.command: > 
-    /tmp/mamba.sh -b -f -p /home/ubuntu/miniforge3 
+    /tmp/mamba.sh -b -f -p {{ home_path }}/miniforge3 
   args:
     creates: "{{ home_path }}/miniforge3/bin/mamba"
 - name: Add Mamba to PATH environment variable.
   ansible.builtin.lineinfile:
-    path: /home/ubuntu/.bashrc
-    line: 'export PATH=/home/ubuntu/miniforge3/bin:$PATH'
+    path: '{{ home_path }}/.bashrc'
+    line: 'export PATH={{ home_path }}/miniforge3/bin:$PATH'
     create: yes
     state: present  
 - name: Install apt packages.
@@ -34,35 +34,17 @@
       - jellyfish
       - minimap2
       - samtools
-- name: Download snakemake.
-  ansible.builtin.get_url:
-    url: 'https://github.com/snakemake/snakemake/archive/refs/tags/v{{ snakemake_version }}.tar.gz'
-    dest: /tmp/snakemake_{{ snakemake_version }}.tar.gz
-    owner: ubuntu
-    mode: 0755
-- name: Unzip snakemake.
-  ansible.builtin.unarchive:
-    src: /tmp/snakemake_{{ snakemake_version }}.tar.gz
-    dest: '{{ home_path }}/'
-    remote_src: true
 - name: Install snakemake.
   pip:
-    name: '{{ home_path }}/snakemake-{{ snakemake_version }}/'
-    executable: '{{ home_path }}/miniforge3/bin/pip3'
+    name: "{{ item }}"
     state: present
-- name: Copy snakemake to path.
-  become: true
-  ansible.builtin.copy:
-    src: '{{ home_path }}/miniforge3/bin/snakemake'
-    dest: /usr/local/bin/snakemake 
-    remote_src: true
-    owner: ubuntu
-    group: ubuntu
-    mode: '0755'
+  loop:
+    - 'snakemake=={{ snakemake_version }}'
+    - pulp==2.7.0
 - name: Add conda init bash to .bashrc
   ansible.builtin.lineinfile:
     path: '{{ home_path }}/.bashrc'
-    line: "/home/ubuntu/miniforge3/bin/conda init bash"
+    line: "{{ home_path }}/miniforge3/bin/conda init bash"
     state: present
     create: yes
   notify:
