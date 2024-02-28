@@ -27,6 +27,13 @@
       register: conda_help
       failed_when: conda_help.stderr != ''
     - name: Check Snakemake installation
+      command: "which snakemake"
+      register: snakemake_which
+      failed_when: snakemake_which.stderr != ''
+    - name: Debug snakemake_which 
+      debug:
+        msg: "{{ snakemake_which }}"
+    - name: Check Snakemake installation
       command: "snakemake --help"
       register: snakemake_help
       failed_when: snakemake_help.stderr != ''
