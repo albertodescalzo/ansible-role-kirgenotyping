@@ -6,13 +6,13 @@
     mode: 0744
 - name: Install mamba.
   ansible.builtin.command: > 
-    /tmp/mamba.sh -b -f -p /home/ubuntu/miniforge3 
+    /tmp/mamba.sh -b -f -p {{ home_path }}/miniforge3 
   args:
     creates: "{{ home_path }}/miniforge3/bin/mamba"
 - name: Add Mamba to PATH environment variable.
   ansible.builtin.lineinfile:
     path: /home/ubuntu/.bashrc
-    line: 'export PATH=/home/ubuntu/miniforge3/bin:$PATH'
+    line: 'export PATH={{ home_path }}//miniforge3/bin:$PATH'
     create: yes
     state: present  
 - name: Install apt packages.
@@ -62,7 +62,7 @@
 - name: Add conda init bash to .bashrc
   ansible.builtin.lineinfile:
     path: '{{ home_path }}/.bashrc'
-    line: "/home/ubuntu/miniforge3/bin/conda init bash"
+    line: "{{ home_path }}/miniforge3/bin/conda init bash"
     state: present
     create: yes
   notify:
