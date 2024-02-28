@@ -33,11 +33,11 @@
     - name: Check samtools installation
       command: "samtools --help"
       register: samtools_help
-      failed_when: samtools_help.stdout != ''
+      failed_when: samtools_help.stderr != ''
     - name: Check minimap2 installation
       command: "minimap2 --help"
       register: minimap2_help
-      failed_when: minimap2_help.stdout != ''
+      failed_when: minimap2_help.stderr != ''
     - name: Check jellyfish installation
       command: "jellyfish --help"
       register: jellyfish_help
