@@ -1,0 +1,44 @@
+---
+- name: Testing
+  hosts: localhost
+  #hosts: denbi_vms
+  
+  vars_files:
+    - "../vars/main.yml"
+  
+  tasks: 
+    - name: debug pwd
+      ansible.builtin.command: pwd
+      register: directory
+    - name: Debug pwd path
+      debug:
+        msg: "{{ directory.stdout }}"
+    - name: Installing role kirgenotyping
+      include_tasks: "../tasks/main.yml"
+    - name: Check Mamba installation
+      command: "mamba --help"
+      register: mamba_help
+      failed_when: mamba_help.stderr != ''
+    - name: Check Conda installation
+      command: "conda --help"
+      register: conda_help
+      failed_when: conda_help.stderr != ''
+    - name: Check Snakemake installation
+      command: "snakemake --help"
+      register: snakemake_help
+      failed_when: snakemake_help.stderr != ''
+    - name: Check samtools installation
+      command: "samtools --help"
+      register: samtools_help
+      failed_when: samtools_help.stdout != ''
+    - name: Check minimap2 installation
+      command: "minimap2 --help"
+      register: minimap2_help
+      failed_when: minimap2_help.stdout != ''
+    - name: Check jellyfish installation
+      command: "jellyfish --help"
+      register: jellyfish_help
+      failed_when: jellyfish_help.stderr != ''
+    
+  handlers:
+    - import_tasks: ../handlers/main.yml

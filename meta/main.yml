@@ -1,0 +1,25 @@
+galaxy_info:
+  role_name: kirgenotyping
+  namespace: albertodescalzo
+  author: Alberto Descalzo
+  description: "Installation of (bioinformatics) software in VMs within deNBI Cloud to run Killer-cell immunoglobulin-like receptors (KIR) genotyping using state-of-the-art method vs Machine Learning (ML)"
+
+  license: MIT
+
+  min_ansible_version: "2.14"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - "focal"
+        - "jammy"
+
+  galaxy_tags:
+    - kirgenotyping
+    - bioinformatics
+    - deNBI
+
+environment:
+    - Cloud
+
+dependencies: []
