@@ -41,15 +41,6 @@
   loop:
     - 'snakemake=={{ snakemake_version }}'
     - pulp==2.7.0
-# - name: Copy snakemake to path.
-#   become: true
-#   ansible.builtin.copy:
-#     src: '{{ home_path }}/miniforge3/bin/snakemake'
-#     dest: /usr/local/bin/snakemake 
-#     remote_src: true
-#     owner: '{{ username }}'
-#     group: '{{ username }}'
-#     mode: '0755'
 - name: Add conda init bash to .bashrc
   ansible.builtin.lineinfile:
     path: '{{ home_path }}/.bashrc'
