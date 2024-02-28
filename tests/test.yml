@@ -13,6 +13,9 @@
     - name: Debug pwd path
       debug:
         msg: "{{ directory.stdout }}"
+    - name: Debug username vars 
+      debug:
+        msg: "{{ username }}"
     - name: Installing role kirgenotyping
       include_tasks: "../tasks/main.yml"
     - name: Check Mamba installation
