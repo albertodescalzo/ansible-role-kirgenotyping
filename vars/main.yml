@@ -5,4 +5,4 @@ username: runner
 # username: ubuntu
 miniforge_version: 23.11.0-0
 minimap2_version: 2.26
-snakemake_version: 8.2.0
+snakemake_version: 7.30.0
